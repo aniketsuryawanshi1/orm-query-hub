@@ -1,0 +1,48 @@
+Fundamental ORM Operations.
+
+1. Create
+
+    creating a model instance or object and save that.
+
+    for eg. 
+
+        electronics = Category(name='Electronics')
+        electronics.save()
+
+        laptop = Product(name='Gaming Laptop', category=electronics, 
+                                    price=1800.00, stock=20)
+        laptop.save()
+
+
+
+2. Bulk Create.
+
+    creating a model multiple instances or objects and save.
+
+    for eg.
+
+        product_list = [
+            Product(name='Book1', category=created_categories[0], price=15.99, stock=100),
+            Product(name='Shirt', category=created_categories[1], price=29.99, stock=50),
+            Product(name='Football', category=created_categories[2], price=19.99, stock=75),
+            Product(name='Doll', category=created_categories[3], price=9.99, stock=200),
+            Product(name='Sofa', category=created_categories[4], price=499.99, stock=10),
+        ]
+
+        create_products = Product.objects.bulk_create(product_list)
+
+
+3. N+1 query problem.
+
+    select_related: For one-to-one or ForeignKey (one-to-many) relationships,
+    this performs a JOIN at the database level to fetch related data in the same query. 
+    It's ideal when the "one side" of the relationship is a single object.
+
+    prefetch_related: For many-to-many or ReverseForeignKey (reverse one-to-many) 
+    relationships, this performs a separate query for the related objects and joins 
+    the results in Python. It's useful when the "many side" of the relationship 
+    has multiple objects. Imagine a Tag model and a ManyToManyField in Product.
+
+4. Aggregations (aggregate, annotate).
+
+    aggregate: Performs an aggregation function (SUM, AVG, COUNT, MIN, MAX) over the entire QuerySet and returns a dictionary.
